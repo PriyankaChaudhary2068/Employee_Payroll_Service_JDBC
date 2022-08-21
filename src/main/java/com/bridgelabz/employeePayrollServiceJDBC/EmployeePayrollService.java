@@ -1,9 +1,6 @@
 package com.bridgelabz.employeePayrollServiceJDBC;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
+import java.sql.*;
 
 public class EmployeePayrollService {
 
@@ -19,18 +16,26 @@ public class EmployeePayrollService {
 	            Class.forName("com.mysql.cj.jdbc.Driver");
 	            System.out.println("Driver loaded");
 	            connection = DriverManager.getConnection(jdbcUrl, userName, password);
-
+	            System.out.println("Connection done...");
+	            Statement statement = connection.createStatement();
+	            ResultSet resultSet = statement.executeQuery("SELECT * FROM employee_payroll");
+	            while (resultSet.next()) {
+	                System.out.println(resultSet.getInt("id") + " | " + resultSet.getString("name") + " | " + resultSet.getString("address") + " | " + resultSet.getString("department") + " | " + resultSet.getString("gender") + " | " + resultSet.getDate("start"));
+	            }
 	        } 
 	        catch (Exception e) 
 	        {
-	            System.out.println(e);
-	        } 
-	        finally 
+	            e.printStackTrace();
+	        }
+	        finally
 	        {
 	            connection.close();
 	        }
 	    }
 	}
+
+	        
+
 	
 
 
